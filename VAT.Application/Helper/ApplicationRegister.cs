@@ -4,16 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VAT.API.ServiceInterfaces;
+using VAT.Application.Service;
 using VAT.Infrastructure.Repositories;
 using VAT.Infrastructure.RepositoryInterfaces;
 
-namespace VAT.Infrastructure.Helper
+namespace VAT.Application.Helper
 {
-	public static class InfrastructureRegistration
+	public static class ApplicationRegister
 	{
-		public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+		public static IServiceCollection AddApplication(this IServiceCollection services)
 		{
-			services.AddScoped<IAccountRepository, AccountRepository>();
+			services.AddScoped<IAccountService, AccountService>();
 
 			return services;
 		}

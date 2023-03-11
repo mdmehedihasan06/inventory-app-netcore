@@ -3,8 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using System.Web.Http.ExceptionHandling;
 using VAT.Infrastructure.Context;
 using VAT.Infrastructure.Helper;
+using VAT.API.Middleware;
+using VAT.Application.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,7 @@ builder.Services.AddLogging(loggingBuilder =>
 // Add services to the container.
 
 InfrastructureRegistration.AddInfrastructure(builder.Services);
+ApplicationRegister.AddApplication(builder.Services);
 builder.Services.AddControllers();
 
 builder.Services.AddAuthentication(options =>
@@ -68,10 +72,7 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-	app.UseExceptionHandler(new ExceptionHandlerOptions
-	{
-		//ExceptionHandler = new ExceptionHandler().HandleException
-	});
+	app.UseGlobalExceptionHandlerMiddleware();
 }
 app.UseHttpsRedirection();
 app.UseRouting();

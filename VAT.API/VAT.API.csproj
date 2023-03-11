@@ -19,11 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ServiceInterfaces\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\VAT.Application\VAT.Application.csproj" />
+    <ProjectReference Include="..\VAT.Domain\VAT.Domain.csproj" />
     <ProjectReference Include="..\VAT.Infrastructure\VAT.Infrastructure.csproj" />
   </ItemGroup>
 

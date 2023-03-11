@@ -8,14 +8,12 @@
 
   <ItemGroup>
     <Folder Include="Enums\" />
-    <Folder Include="Helper\" />
     <Folder Include="Mapping\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="RepositoryInterfaces\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\VAT.Domain\VAT.Domain.csproj" />
+    <ProjectReference Include="..\VAT.Infrastructure\VAT.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

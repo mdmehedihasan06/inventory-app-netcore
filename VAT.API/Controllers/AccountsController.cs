@@ -11,9 +11,11 @@ namespace VAT.API.Controllers
 	public class AccountsController : ControllerBase
 	{
 		private readonly IAccountService _iAccountService;
-		public AccountsController(IAccountService accountService) 
+        private readonly ILogger<AccountsController> _logger;
+        public AccountsController(IAccountService accountService,ILogger<AccountsController> logger) 
 		{
 			_iAccountService = accountService;
+			_logger = logger;
 		}
 
 		[HttpPost("login")]
@@ -22,7 +24,8 @@ namespace VAT.API.Controllers
 		[ProducesDefaultResponseType]
 		public async Task<ActionResult> Login(UserDto model)
 		{
-			var token = await _iAccountService.LogIn(model);
+            _logger.LogInformation("Hello from Accounts Controller!");
+            var token = await _iAccountService.LogIn(model);
 			return Ok(token);
 		}
 	}

@@ -8,17 +8,22 @@ using VAT.Infrastructure.Context;
 using VAT.Infrastructure.Helper;
 using VAT.API.Middleware;
 using VAT.Application.Helper;
-using AutoMapper;
+using VAT.Application.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<VATDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
 
-builder.Services.AddLogging(loggingBuilder =>
-{
-	loggingBuilder.ClearProviders();
-	loggingBuilder.AddConsole();
-});
+//builder.Services.AddLogging(loggingBuilder =>
+//{
+//	loggingBuilder.ClearProviders();
+//	loggingBuilder.AddConsole();
+//});
+
+builder.Host.UseSerilog((context, services, configuration) => configuration
+	.ReadFrom.Configuration(context.Configuration)
+	.Enrich.FromLogContext()
+	.WriteTo.Console());
 
 // Add services to the container.
 ApplicationRegister.AddApplication(builder.Services);
@@ -64,7 +69,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddAutoMapper(typeof(VAT.Application.Mapping.MappingProfile));
+MappingConfig.Configure();
+
 
 var app = builder.Build();
 
@@ -75,10 +81,15 @@ if (app.Environment.IsDevelopment())
 	app.UseSwagger();
 	app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "VATWebAPI-Project v1"));
 }
-else
-{
-	app.UseGlobalExceptionHandlerMiddleware();
-}
+//else
+//{
+//	app.UseGlobalExceptionHandlerMiddleware();
+//}
+
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+
+app.UseSerilogRequestLogging();
+
 app.UseHttpsRedirection();
 app.UseRouting();
 

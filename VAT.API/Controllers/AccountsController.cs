@@ -20,7 +20,7 @@ namespace VAT.API.Controllers
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesDefaultResponseType]
-		public async Task<ActionResult> Login(LoginModel model)
+		public async Task<ActionResult> Login(UserDto model)
 		{
 			var token = await _iAccountService.LogIn(model);
 			return Ok(token);

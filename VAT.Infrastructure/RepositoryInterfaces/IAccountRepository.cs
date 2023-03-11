@@ -9,6 +9,6 @@ namespace VAT.Infrastructure.RepositoryInterfaces
 {
 	public interface IAccountRepository
 	{
-		Task<string> LogIn(LoginModel model);
+		Task<string> LogIn(UserDto model);
 	}
 }

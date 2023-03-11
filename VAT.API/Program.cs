@@ -8,20 +8,22 @@ using VAT.Infrastructure.Context;
 using VAT.Infrastructure.Helper;
 using VAT.API.Middleware;
 using VAT.Application.Helper;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<VATDbContext>(options =>
-	options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+builder.Services.AddDbContext<VATDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+
 builder.Services.AddLogging(loggingBuilder =>
 {
 	loggingBuilder.ClearProviders();
 	loggingBuilder.AddConsole();
 });
-// Add services to the container.
 
-InfrastructureRegistration.AddInfrastructure(builder.Services);
+// Add services to the container.
 ApplicationRegister.AddApplication(builder.Services);
+InfrastructureRegistration.AddInfrastructure(builder.Services);
+
 builder.Services.AddControllers();
 
 builder.Services.AddAuthentication(options =>
@@ -61,6 +63,9 @@ builder.Services.AddAuthorization();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//builder.Services.AddAutoMapper(typeof(VAT.Application.Mapping.MappingProfile));
+
 var app = builder.Build();
 
 

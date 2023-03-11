@@ -15,7 +15,7 @@ namespace VAT.Infrastructure.Helper
 		{
 			services.AddScoped<IAccountRepository, AccountRepository>();
 
-			return services;
+            return services;
 		}
 	}
 }

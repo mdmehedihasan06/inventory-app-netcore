@@ -14,9 +14,9 @@ namespace VAT.Application.Service
 		private readonly IAccountRepository _iAccountRepository;
 		public AccountService(IAccountRepository accountRepository)
 		{
-			_iAccountRepository= accountRepository;
+			_iAccountRepository = accountRepository;
 		}
-		public async Task<string> LogIn(LoginModel model)
+		public async Task<string> LogIn(UserDto model)
 		{
 			return await _iAccountRepository.LogIn(model);
 		}

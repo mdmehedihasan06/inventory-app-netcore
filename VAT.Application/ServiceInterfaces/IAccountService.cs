@@ -4,6 +4,6 @@ namespace VAT.API.ServiceInterfaces
 {
 	public interface IAccountService
 	{
-		Task<string> LogIn(LoginModel model);
+		Task<string> LogIn(UserDto model);
 	}
 }

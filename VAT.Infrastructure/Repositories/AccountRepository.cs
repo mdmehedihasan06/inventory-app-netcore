@@ -10,7 +10,7 @@ namespace VAT.Infrastructure.Repositories
 {
 	public class AccountRepository : IAccountRepository
 	{
-		public Task<string> LogIn(LoginModel model)
+		public Task<string> LogIn(UserDto model)
 		{
 			throw new NotImplementedException();
 		}

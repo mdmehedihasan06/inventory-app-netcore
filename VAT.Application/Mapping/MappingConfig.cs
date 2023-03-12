@@ -16,8 +16,8 @@ namespace VAT.Application.Mapping
             TypeAdapterConfig<User, UserDto>.NewConfig();
 
             //TypeAdapterConfig<User, UserDto>.NewConfig()
-            //    .Map(dest => dest.UserId, src => src.UserId)
-            //    .Map(dest => dest.Password, src => src.Password);
+            //    .Map(dest => dest.Id, src => src.UserId)
+            //    .Map(dest => dest.Pass, src => src.Password);
         }
     }
 }

@@ -26,4 +26,8 @@
     <ProjectReference Include="..\VAT.Infrastructure\VAT.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Logging\" />
+  </ItemGroup>
+
 </Project>

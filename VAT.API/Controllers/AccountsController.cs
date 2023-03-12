@@ -8,7 +8,7 @@ namespace VAT.API.Controllers
 {
 	[Route("api/[controller]")]
 	[ApiController]
-	public class AccountsController : ControllerBase
+	public class AccountsController : BaseController
 	{
 		private readonly IAccountService _iAccountService;
         private readonly ILogger<AccountsController> _logger;

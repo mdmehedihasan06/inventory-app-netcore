@@ -31,8 +31,8 @@ Log.Logger = new LoggerConfiguration()
 builder.Services.AddSingleton(Log.Logger);
 
 // Add services to the container.
-ApplicationRegister.AddApplication(builder.Services);
-InfrastructureRegistration.AddInfrastructure(builder.Services);
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
 
 builder.Services.AddControllers();
 

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace VAT.Infrastructure.RepositoryInterfaces
 {
-    public interface IAccountRepository
+    public interface IJwtTokenGenerator
     {
-        Task<string> LogIn(string email, string password);
+        string GenerateToken(string userId, string firstName, string email);
     }
 }

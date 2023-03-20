@@ -1,9 +1,10 @@
-﻿using VAT.Domain.Dtos;
+﻿using VAT.Application.Service.Authentication;
+using VAT.Domain.Dtos;
 
 namespace VAT.API.ServiceInterfaces
 {
 	public interface IAccountService
 	{
-		Task<string> LogIn(UserDto model);
+		Task<AuthenticationResult> LogIn(string email, string password);
 	}
 }

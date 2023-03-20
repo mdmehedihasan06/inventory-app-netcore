@@ -22,10 +22,10 @@ namespace VAT.API.Controllers
 		[ProducesResponseType(StatusCodes.Status204NoContent)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[ProducesDefaultResponseType]
-		public async Task<ActionResult> Login(UserDto model)
+		public async Task<ActionResult> Login(string email, string password)
 		{
             _logger.LogInformation("Hello from Accounts Controller!");
-            var token = await _iAccountService.LogIn(model);
+            var token = await _iAccountService.LogIn(email, password);
 			return Ok(token);
 		}
 	}

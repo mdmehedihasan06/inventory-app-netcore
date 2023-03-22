@@ -3,29 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VAT.API.ServiceInterfaces;
+using VAT.Application.ServiceInterfaces.Authentication;
 using VAT.Infrastructure.RepositoryInterfaces;
+using VAT.Infrastructure.RepositoryInterfaces.Authentication;
 
 namespace VAT.Application.Service.Authentication
 {
     public class AccountService : IAccountService
     {
-        private readonly IJwtTokenGenerator _iJwtTokenGenerator;
         private readonly IAccountRepository _iAccountService;
-        public AccountService(IJwtTokenGenerator jwtTokenGenerator, IAccountRepository iAccountService)
+        public AccountService(IAccountRepository iAccountService)
         {
-            _iJwtTokenGenerator = jwtTokenGenerator;
             _iAccountService = iAccountService;
         }
         //check if user Alredy exist
-        public AuthenticationResult Register(string firstName, string lastName, string email, string Password, string confirmPassword)
+        public async Task<AuthenticationResult> Register(string firstName, string lastName, string email, string password, string confirmPassword)
         {
             // chek confirm pass matching
             // check user Alredy exist
             //create user (generat Guid)
             string userId = Guid.NewGuid().ToString();
-            //crete jwt token
-            string token = _iJwtTokenGenerator.GenerateToken(userId, firstName, email);
+            var token = await _iAccountService.LogIn(email, password);
 
             return new AuthenticationResult
             {
@@ -33,25 +31,22 @@ namespace VAT.Application.Service.Authentication
                 FirstName = firstName,
                 LastName = lastName,
                 Email = email,
-                Token = "token"
-            };
+                Token = token
+			};
         }
 
         public async Task<AuthenticationResult> LogIn(string email, string password)
         {
 
             //get user (generat Guid)
-            var user = await _iAccountService.LogIn(email, password);
-            //crete jwt token
-            string token = _iJwtTokenGenerator.GenerateToken(Guid.NewGuid().ToString(), email, email);
+            var token = await _iAccountService.LogIn(email, password);
 
-            return new AuthenticationResult
-            {
-                Id = Guid.NewGuid().ToString(),
-                FullName = "Name",
-                Email = email,
-                Token = token
-            };
-        }
+			return new AuthenticationResult
+			{
+				Id = Guid.NewGuid().ToString(),
+				Email = email,
+				Token = token
+			};
+		}
     }
 }

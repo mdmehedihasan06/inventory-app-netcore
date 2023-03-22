@@ -32,43 +32,10 @@ builder.Services.AddSingleton(Log.Logger);
 
 // Add services to the container.
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure();
+builder.Services.AddInfrastructure(builder.Configuration);
 
 builder.Services.AddControllers();
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.Authority = "https://your-authorization-server.com";
-    options.Audience = "your-audience";
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = "your_issuer",
-        ValidAudience = "your_audience",
-        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("your_secret_key")),
-        ClockSkew = TimeSpan.Zero, // set the token lifetime here
-    };
-})
-.AddOpenIdConnect(options =>
-{
-    options.Authority = "https://your-authorization-server.com";
-    options.ClientId = "your-client-id";
-    options.ClientSecret = "your-client-secret";
-    options.ResponseType = "code";
-    options.Scope.Add("openid");
-    options.Scope.Add("profile");
-    options.SaveTokens = true;
-});
-
-builder.Services.AddAuthorization();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

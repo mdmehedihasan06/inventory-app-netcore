@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using VAT.API.ServiceInterfaces;
 using VAT.Application.Service.Authentication;
+using VAT.Application.ServiceInterfaces.Authentication;
 
 namespace VAT.Application.Helper
 {

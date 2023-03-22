@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace VAT.Application.ServiceInterfaces.Authentication
+namespace VAT.Infrastructure.RepositoryInterfaces.Authentication
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(string UserId,string UserName, string Email);
+        string GenerateToken(string userId, string firstName, string email);
     }
 }

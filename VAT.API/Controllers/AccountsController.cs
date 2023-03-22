@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using VAT.API.ServiceInterfaces;
+using VAT.Application.ServiceInterfaces.Authentication;
 using VAT.Domain.Dtos;
 
 namespace VAT.API.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
-	public class AccountsController : BaseController
+	public class AccountsController : ControllerBase
 	{
 		private readonly IAccountService _iAccountService;
         private readonly ILogger<AccountsController> _logger;

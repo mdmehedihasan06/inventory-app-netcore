@@ -57,6 +57,8 @@ namespace VAT.Infrastructure.Helper
 					ClockSkew = TimeSpan.Zero, // set the token lifetime here
 				};
 			})
+
+			//for reference https://curity.io/resources/learn/dotnet-openid-connect-website/
 			.AddOpenIdConnect(options =>
 			{
 				options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;

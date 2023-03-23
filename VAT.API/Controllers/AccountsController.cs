@@ -25,8 +25,8 @@ namespace VAT.API.Controllers
 		public async Task<ActionResult> Login(string email, string password)
 		{
             _logger.LogInformation("Hello from Accounts Controller!");
-            var token = await _iAccountService.LogIn(email, password);
-			return Ok(token);
+            var result = await _iAccountService.LogIn(email, password);
+			return Ok(result);
 		}
 	}
 }

@@ -40,12 +40,12 @@ namespace VAT.Application.Service.Authentication
         {
 
             //get user (generat Guid)
-            var loginInfo = await _iAccountService.LogIn(email, password);
-            var token = _iJwtTokenGenerator.GenerateToken(loginInfo.UserId,loginInfo.FirstName,loginInfo.LastName);
+            var userInfo = await _iAccountService.LogIn(email, password);
+            var token = _iJwtTokenGenerator.GenerateToken(userInfo.UserId, userInfo.FirstName,userInfo.LastName);
 
 			return new AuthenticationResult
 			{
-				user = loginInfo,
+				user = userInfo,
 				Token = token
 			};
 		}

@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VAT.Contracts\VAT.Contracts.csproj" />
+    <ProjectReference Include="..\VAT.Domain\VAT.Domain.csproj" />
   </ItemGroup>
 
 </Project>

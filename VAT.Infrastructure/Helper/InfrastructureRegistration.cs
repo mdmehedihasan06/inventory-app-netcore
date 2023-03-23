@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace VAT.Infrastructure.Helper
 			services.AddAuth(configuration);
 			services.AddScoped<IAccountRepository, AccountRepository>();
 			services.AddScoped<IDateTimeProvider, DateTimeProvider>();
-			services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
+			services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 			return services;
 		}
 
@@ -40,7 +41,7 @@ namespace VAT.Infrastructure.Helper
 			})
 			.AddJwtBearer(options =>
 			{
-				options.Authority = jwtSettings.Issuer;
+				options.Authority = jwtSettings.Authority;
 				options.Audience = jwtSettings.Audience;
 				options.TokenValidationParameters = new TokenValidationParameters
 				{
@@ -53,6 +54,7 @@ namespace VAT.Infrastructure.Helper
 					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
 					ClockSkew = TimeSpan.Zero, // set the token lifetime here
 				};
+				options.Configuration = new OpenIdConnectConfiguration();
 			});
 
 

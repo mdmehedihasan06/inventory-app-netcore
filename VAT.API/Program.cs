@@ -12,6 +12,7 @@ using VAT.Application.Mapping;
 using Serilog.Events;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Microsoft.IdentityModel.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,7 @@ builder.Services.AddSingleton(Log.Logger);
 // Add services to the container.
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-
+IdentityModelEventSource.ShowPII = true;
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

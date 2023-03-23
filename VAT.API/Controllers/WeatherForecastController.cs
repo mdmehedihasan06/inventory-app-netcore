@@ -3,7 +3,6 @@ using VAT.API.Controllers;
 
 namespace VAT_RND_01.Controllers
 {
-	[ApiController]
 	[Route("[controller]")]
 	public class WeatherForecastController : BaseController
 	{
@@ -20,15 +19,14 @@ namespace VAT_RND_01.Controllers
 		}
 
 		[HttpGet(Name = "GetWeatherForecast")]
-		public IEnumerable<WeatherForecast> Get()
+		public IActionResult Get()
 		{
-			return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+			return Ok(new WeatherForecast
 			{
-				Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+				Date = DateOnly.FromDateTime(DateTime.Now.AddDays(1)),
 				TemperatureC = Random.Shared.Next(-20, 55),
 				Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-			})
-			.ToArray();
+			});
 		}
 	}
 }

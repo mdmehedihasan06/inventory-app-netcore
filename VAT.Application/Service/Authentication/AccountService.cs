@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VAT.Application.ServiceInterfaces.Authentication;
+using VAT.Domain.Entities.Account;
 using VAT.Infrastructure.RepositoryInterfaces;
 using VAT.Infrastructure.RepositoryInterfaces.Authentication;
 
@@ -12,9 +13,11 @@ namespace VAT.Application.Service.Authentication
     public class AccountService : IAccountService
     {
         private readonly IAccountRepository _iAccountService;
-        public AccountService(IAccountRepository iAccountService)
+        private readonly IJwtTokenGenerator _iJwtTokenGenerator;
+        public AccountService(IAccountRepository iAccountService,IJwtTokenGenerator jwtTokenGenerator)
         {
             _iAccountService = iAccountService;
+            _iJwtTokenGenerator= jwtTokenGenerator;
         }
         //check if user Alredy exist
         public async Task<AuthenticationResult> Register(string firstName, string lastName, string email, string password, string confirmPassword)
@@ -23,14 +26,12 @@ namespace VAT.Application.Service.Authentication
             // check user Alredy exist
             //create user (generat Guid)
             string userId = Guid.NewGuid().ToString();
-            var token = await _iAccountService.LogIn(email, password);
+            var user = new User();
+            var token = string.Empty;
 
             return new AuthenticationResult
             {
-                Id = Guid.NewGuid().ToString(),
-                FirstName = firstName,
-                LastName = lastName,
-                Email = email,
+                user = user,
                 Token = token
 			};
         }
@@ -39,12 +40,12 @@ namespace VAT.Application.Service.Authentication
         {
 
             //get user (generat Guid)
-            var token = await _iAccountService.LogIn(email, password);
+            var loginInfo = await _iAccountService.LogIn(email, password);
+            var token = _iJwtTokenGenerator.GenerateToken(loginInfo.UserId,loginInfo.FirstName,loginInfo.LastName);
 
 			return new AuthenticationResult
 			{
-				Id = Guid.NewGuid().ToString(),
-				Email = email,
+				user = loginInfo,
 				Token = token
 			};
 		}

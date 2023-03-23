@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -25,7 +27,6 @@ namespace VAT.Infrastructure.Helper
 			services.AddAuth(configuration);
 			services.AddScoped<IAccountRepository, AccountRepository>();
 			services.AddScoped<IDateTimeProvider, DateTimeProvider>();
-			services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 			return services;
 		}
 
@@ -34,10 +35,11 @@ namespace VAT.Infrastructure.Helper
 			var jwtSettings = new JwtSettings();
 			configuration.Bind(JwtSettings.SectionName, jwtSettings);
 			services.AddSingleton(Options.Create(jwtSettings));
+			services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 			services.AddAuthentication(options =>
 			{
 				options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-				options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
 			})
 			.AddJwtBearer(options =>
 			{
@@ -54,9 +56,38 @@ namespace VAT.Infrastructure.Helper
 					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
 					ClockSkew = TimeSpan.Zero, // set the token lifetime here
 				};
-				options.Configuration = new OpenIdConnectConfiguration();
-			});
+			})
+			.AddOpenIdConnect(options =>
+			{
+				options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
+				options.Authority = jwtSettings.Authority;
+				options.ClientId = jwtSettings.Issuer;
+				options.ClientSecret = jwtSettings.Secret;
+				options.ResponseType = OpenIdConnectResponseType.Code;
+				options.ResponseMode = OpenIdConnectResponseMode.Query;
+				options.GetClaimsFromUserInfoEndpoint = true;
+
+				string scopeString = JwtSettings.SectionName;
+				scopeString.Split(" ", StringSplitOptions.TrimEntries).ToList().ForEach(scope =>
+				{
+					options.Scope.Add(scope);
+				});
+				options.TokenValidationParameters = new TokenValidationParameters
+				{
+					ValidIssuer = options.Authority,
+					ValidAudience = options.ClientId
+				};
+
+				options.Events.OnRedirectToIdentityProviderForSignOut = (context) =>
+				{
+					context.ProtocolMessage.PostLogoutRedirectUri = jwtSettings.PostLogoutRedirectUri;
+					return Task.CompletedTask;
+				};
+
+				options.SaveTokens = true;
+
+			});
 
 			services.AddAuthorization();
 			return services;

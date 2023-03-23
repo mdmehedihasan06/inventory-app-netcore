@@ -13,6 +13,7 @@ namespace VAT.Infrastructure.Repositories.Authentication
         public string? Authority { get; init; }
         public string? Issuer { get; init; }
         public string? Audience { get; init; }
+        public string? PostLogoutRedirectUri { get; init; }
         public int ExpireMinutes { get; init; }
     }
 }

@@ -56,40 +56,41 @@ namespace VAT.Infrastructure.Helper
 					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
 					ClockSkew = TimeSpan.Zero, // set the token lifetime here
 				};
-			})
+				options.Configuration = new OpenIdConnectConfiguration();
+			});
 
 			//for reference https://curity.io/resources/learn/dotnet-openid-connect-website/
-			.AddOpenIdConnect(options =>
-			{
-				options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+			//.AddOpenIdConnect(options =>
+			//{
+			//	options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
-				options.Authority = jwtSettings.Authority;
-				options.ClientId = jwtSettings.Issuer;
-				options.ClientSecret = jwtSettings.Secret;
-				options.ResponseType = OpenIdConnectResponseType.Code;
-				options.ResponseMode = OpenIdConnectResponseMode.Query;
-				options.GetClaimsFromUserInfoEndpoint = true;
+			//	options.Authority = jwtSettings.Authority;
+			//	options.ClientId = jwtSettings.Issuer;
+			//	options.ClientSecret = jwtSettings.Secret;
+			//	options.ResponseType = OpenIdConnectResponseType.Code;
+			//	options.ResponseMode = OpenIdConnectResponseMode.Query;
+			//	options.GetClaimsFromUserInfoEndpoint = true;
 
-				string scopeString = JwtSettings.SectionName;
-				scopeString.Split(" ", StringSplitOptions.TrimEntries).ToList().ForEach(scope =>
-				{
-					options.Scope.Add(scope);
-				});
-				options.TokenValidationParameters = new TokenValidationParameters
-				{
-					ValidIssuer = options.Authority,
-					ValidAudience = options.ClientId
-				};
+			//	string scopeString = JwtSettings.SectionName;
+			//	scopeString.Split(" ", StringSplitOptions.TrimEntries).ToList().ForEach(scope =>
+			//	{
+			//		options.Scope.Add(scope);
+			//	});
+			//	options.TokenValidationParameters = new TokenValidationParameters
+			//	{
+			//		ValidIssuer = options.Authority,
+			//		ValidAudience = options.ClientId
+			//	};
 
-				options.Events.OnRedirectToIdentityProviderForSignOut = (context) =>
-				{
-					context.ProtocolMessage.PostLogoutRedirectUri = jwtSettings.PostLogoutRedirectUri;
-					return Task.CompletedTask;
-				};
+			//	options.Events.OnRedirectToIdentityProviderForSignOut = (context) =>
+			//	{
+			//		context.ProtocolMessage.PostLogoutRedirectUri = jwtSettings.PostLogoutRedirectUri;
+			//		return Task.CompletedTask;
+			//	};
 
-				options.SaveTokens = true;
+			//	options.SaveTokens = true;
 
-			});
+			//});
 
 			services.AddAuthorization();
 			return services;

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using VAT.Application.ServiceInterfaces.Authentication;
 using VAT.Domain.Dtos;
+using VAT.Domain.Entities.Settings;
 
 namespace VAT.API.Controllers
 {
@@ -26,6 +27,7 @@ namespace VAT.API.Controllers
 		{
             _logger.LogInformation("Hello from Accounts Controller!");
             var result = await _iAccountService.LogIn(email, password);
+
 			return Ok(result);
 		}
 	}

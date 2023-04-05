@@ -8,6 +8,6 @@ namespace VAT.Infrastructure.RepositoryInterfaces.Authentication
 {
     public interface IJwtTokenGenerator
     {
-        string GenerateToken(string userId, string firstName, string email);
+        string GenerateToken(string? userId, string? firstName, string? email);
     }
 }

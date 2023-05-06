@@ -1,0 +1,14 @@
+﻿Static Dropdown Value Needed For
+==============================================
+1. Cost Head
+2. Warranty Value Type
+
+
+Approver Hierarchy
+==============================================
+1. Approved By, Approved Date, Approval Note, Approve Order
+
+
+Migration Update Needed
+==============================================
+1. Non nullable check in entity and confirm in DB

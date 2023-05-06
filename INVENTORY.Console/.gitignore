@@ -1,0 +1,26 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/VAT_Project/FileContentIndex
+<<<<<<< HEAD
+/.vs/*
+=======
+/.vs
+# Visual Studio temporary files
+.vs/
+obj/
+bin/
+
+# build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+
+/INVENTORY.API/appsettings.json
+/INVENTORY.API/bin/Debug/net7.0/appsettings.json
+/.vs/INVENTORY_Project/v17/.suo
+/INVENTORY.Infrastructure/Migrations/20230405185324_add-designed-DB.cs
+/INVENTORY.Infrastructure/Migrations/20230405185324_add-designed-DB.Designer.cs
+/INVENTORY.Infrastructure/Migrations/VATDbContextModelSnapshot.cs
+>>>>>>> d8750724bd8e23b8ba618542cc805ea3b25c1d3e

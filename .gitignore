@@ -44,3 +44,8 @@
 /INVENTORY.UnitTest/obj
 /UnitTest/obj/Debug/net7.0
 /UnitTest/obj
+/NUnitTest/bin/Debug/net7.0/CoverletSourceRootsMapping
+/NUnitTest/obj/Debug/net7.0/NUnitTest.GeneratedMSBuildEditorConfig.editorconfig
+/NUnitTest/obj/NUnitTest.csproj.nuget.dgspec.json
+/NUnitTest/obj/NUnitTest.csproj.nuget.g.props
+/NUnitTest/obj/project.assets.json
